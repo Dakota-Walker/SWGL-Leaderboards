@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dakwalke.SWGLegends"
@@ -22,6 +22,21 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-widgets",
+        {
+          "widgets": [
+            {
+              "name": "LeaderboardWidget",
+              "displayName": "Top Bounty Hunters",
+              "description": "Top ranked bounty hunter kills",
+              "supportedFamilies": ["systemSmall", "systemMedium"]
+            }
+          ]
+        }
+      ]
+    ]
   }
 }
