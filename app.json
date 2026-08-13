@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "SWGLegends",
-    "slug": "SWGLegends",
+    "name": "SWGL Leaderboards",
+    "slug": "swgl-leaderboards",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dakwalke.SWGLegends"
+      "bundleIdentifier": "com.dakwalke.swglleaderboards"
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +18,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.dakwalke.SWGLegends"
+      "package": "com.dakwalke.swglleaderboards"
     },
     "web": {
       "favicon": "./assets/favicon.png"
