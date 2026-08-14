@@ -1,12 +1,15 @@
 {
-  "name": "swglegends",
+  "name": "swgl-leaderboards",
   "version": "1.0.0",
   "main": "index.ts",
   "dependencies": {
+    "@expo/ui": "~57.0.10",
     "expo": "~57.0.12",
     "expo-status-bar": "~57.0.1",
+    "expo-widgets": "~57.0.9",
     "react": "19.2.3",
-    "react-native": "0.86.2"
+    "react-native": "0.86.2",
+    "react-native-safe-area-context": "~5.7.0"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
@@ -14,9 +17,10 @@
   },
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "android": "expo run:android --device",
+    "ios": "expo run:ios --device",
+    "web": "expo start --web",
+    "prebuild": "expo prebuild --clean"
   },
   "private": true
 }
