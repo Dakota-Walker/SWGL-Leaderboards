@@ -83,3 +83,60 @@ export type RestussEventResponse = {
   rebelSharePercent: number;
   fetchedAt: string;
 };
+
+export type BountyLargestBounty = {
+  timestamp: string;
+  outcome: string;
+  hunterName: string;
+  targetName: string;
+  credits: number;
+};
+
+export type BountySummary = {
+  kills: number;
+  failures: number;
+  encounters: number;
+  successRate: number;
+  creditsPaid: number;
+  averageBounty: number;
+  distinctHunters: number;
+  distinctTargets: number;
+  largestBounty: BountyLargestBounty;
+};
+
+export type BountyHunterEntry = {
+  rank: number;
+  name: string;
+  kills: number;
+  failures: number;
+  encounters: number;
+  successRate: number;
+  creditsEarned: number;
+};
+
+export type BountyTargetEntry = {
+  rank: number;
+  name: string;
+  timesKilled: number;
+  timesSurvived: number;
+  encounters: number;
+  survivalRate: number;
+};
+
+export type BountySurvivorEntry = {
+  rank: number;
+  name: string;
+  timesKilled: number;
+  timesSurvived: number;
+  encounters: number;
+  survivalRate: number;
+};
+
+export type BountyHuntingResponse = {
+  windowDays: number;
+  summary: BountySummary;
+  hunters: BountyHunterEntry[];
+  targets: BountyTargetEntry[];
+  survivors: BountySurvivorEntry[];
+  fetchedAt: string;
+};
