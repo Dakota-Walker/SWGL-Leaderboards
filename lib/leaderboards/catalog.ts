@@ -10,6 +10,40 @@ export type LeaderboardCategory = {
   subcategories: LeaderboardCatalogEntry[];
 };
 
+const GCW_CATEGORY: LeaderboardCategory = {
+  key: 'gcw',
+  label: 'GCW',
+  subcategories: [
+    { key: 'imperial-gcw', label: 'Imperial GCW', leaderboardId: 'GCW_IMPERIAL' },
+    { key: 'rebel-gcw', label: 'Rebel GCW', leaderboardId: 'GCW_REBEL' },
+    {
+      key: 'pvp-kills-ground-imperial',
+      label: 'PvP Kills - Ground Imperial',
+      leaderboardId: 'PVP_KILLS_GROUND_IMPERIAL',
+    },
+    {
+      key: 'pvp-kills-ground-rebel',
+      label: 'PvP Kills - Ground Rebel',
+      leaderboardId: 'PVP_KILLS_GROUND_REBEL',
+    },
+    {
+      key: 'pvp-kills-space-imperial',
+      label: 'PvP Kills - Space Imperial',
+      leaderboardId: 'PVP_KILLS_SPACE_IMPERIAL',
+    },
+    {
+      key: 'pvp-kills-space-rebel',
+      label: 'PvP Kills - Space Rebel',
+      leaderboardId: 'PVP_KILLS_SPACE_REBEL',
+    },
+    {
+      key: 'space-battle-points',
+      label: 'Space Battle Points',
+      leaderboardId: 'SPACE_BATTLE_POINTS',
+    },
+  ],
+};
+
 const BOUNTY_HUNTER_CATEGORY: LeaderboardCategory = {
   key: 'bounty-hunter',
   label: 'Bounty Hunter',
@@ -23,7 +57,7 @@ const BOUNTY_HUNTER_CATEGORY: LeaderboardCategory = {
   ],
 };
 
-export const LEADERBOARD_CATALOG: LeaderboardCategory[] = [BOUNTY_HUNTER_CATEGORY];
+export const LEADERBOARD_CATALOG: LeaderboardCategory[] = [BOUNTY_HUNTER_CATEGORY, GCW_CATEGORY];
 
 export function findSubcategory(
   categoryKey: string,
