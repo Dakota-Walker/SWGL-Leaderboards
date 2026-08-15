@@ -3,11 +3,12 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, useColorScheme } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+import BountyLogScreen, { BOUNTY_LOG_LABEL } from './components/BountyLogScreen';
 import LeaderboardScreen, { Chip } from './components/LeaderboardScreen';
 import RestussEventScreen from './components/RestussEventScreen';
 import { THEME } from './lib/theme';
 
-type ActiveView = 'leaderboards' | 'restuss-event';
+type ActiveView = 'leaderboards' | 'restuss-event' | 'bounty-log';
 
 export default function App() {
   const scheme = useColorScheme();
@@ -30,8 +31,20 @@ export default function App() {
             theme={theme}
             onPress={() => setView('restuss-event')}
           />
+          <Chip
+            label={BOUNTY_LOG_LABEL}
+            active={view === 'bounty-log'}
+            theme={theme}
+            onPress={() => setView('bounty-log')}
+          />
         </View>
-        {view === 'leaderboards' ? <LeaderboardScreen /> : <RestussEventScreen />}
+        {view === 'leaderboards' ? (
+          <LeaderboardScreen />
+        ) : view === 'restuss-event' ? (
+          <RestussEventScreen />
+        ) : (
+          <BountyLogScreen />
+        )}
         <StatusBar style={scheme === 'light' ? 'dark' : 'light'} />
       </SafeAreaView>
     </SafeAreaProvider>

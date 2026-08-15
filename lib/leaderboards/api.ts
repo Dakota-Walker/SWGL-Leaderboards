@@ -1,4 +1,5 @@
 import type {
+  BountyHuntingResponse,
   LeaderboardResponse,
   LeaderboardWinsResponse,
   Period,
@@ -40,4 +41,14 @@ export async function fetchRestussEvent(): Promise<RestussEventResponse> {
   }
 
   return res.json() as Promise<RestussEventResponse>;
+}
+
+export async function fetchBountyHunting(): Promise<BountyHuntingResponse> {
+  const res = await fetch(`${API_BASE}/bounty-hunting`);
+
+  if (!res.ok) {
+    throw new Error(`bounty-hunting request failed: ${res.status}`);
+  }
+
+  return res.json() as Promise<BountyHuntingResponse>;
 }
