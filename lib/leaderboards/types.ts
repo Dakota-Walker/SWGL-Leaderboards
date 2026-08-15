@@ -41,3 +41,45 @@ export type LeaderboardWinsResponse = {
   guildWins: WinsEntry[];
   fetchedAt: string;
 };
+
+export type RestussLeader = 'CONTESTED' | 'IMPERIAL' | 'REBEL';
+export type RestussFaction = 'IMPERIAL' | 'REBEL';
+
+export type RestussQuest = { key: string; name: string; percent: number };
+
+export type RestussBase = {
+  key: string;
+  name: string;
+  phase: number;
+  maxPhase: number;
+  isScoring: boolean;
+};
+
+export type RestussFactionState = {
+  score: number;
+  maxScore: number;
+  questPercent: number;
+  quests: RestussQuest[];
+  bases: RestussBase[];
+};
+
+export type RestussMaster = {
+  key: string;
+  name: string;
+  phase: number;
+  maxPhase: number;
+  isScoring: boolean;
+};
+
+export type RestussEventResponse = {
+  isActive: boolean;
+  master: RestussMaster;
+  imperial: RestussFactionState;
+  rebel: RestussFactionState;
+  winningFaction: RestussFaction | null;
+  leader: RestussLeader;
+  margin: number;
+  imperialSharePercent: number;
+  rebelSharePercent: number;
+  fetchedAt: string;
+};
