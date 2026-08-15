@@ -1,0 +1,47 @@
+export type LeaderboardCatalogEntry = {
+  key: string;
+  label: string;
+  leaderboardId: string;
+};
+
+export type LeaderboardCategory = {
+  key: string;
+  label: string;
+  subcategories: LeaderboardCatalogEntry[];
+};
+
+const BOUNTY_HUNTER_CATEGORY: LeaderboardCategory = {
+  key: 'bounty-hunter',
+  label: 'Bounty Hunter',
+  subcategories: [
+    { key: 'ground-value', label: 'Ground Value', leaderboardId: 'BOUNTY_HUNTER_GROUND_VALUE' },
+    // Not yet confirmed against the live API - id guessed from naming pattern.
+    { key: 'space-value', label: 'Space Value', leaderboardId: 'TODO_CONFIRM_BOUNTY_HUNTER_SPACE_VALUE' },
+    { key: 'unique-kills', label: 'Unique Kills', leaderboardId: 'BOUNTY_HUNTER_UNIQUE_KILLS' },
+    // Not yet confirmed against the live API - id guessed from naming pattern.
+    { key: 'total-kills', label: 'Total Kills', leaderboardId: 'TODO_CONFIRM_BOUNTY_HUNTER_TOTAL_KILLS' },
+  ],
+};
+
+export const LEADERBOARD_CATALOG: LeaderboardCategory[] = [BOUNTY_HUNTER_CATEGORY];
+
+export function findSubcategory(
+  categoryKey: string,
+  subcategoryKey: string
+): LeaderboardCatalogEntry | undefined {
+  return LEADERBOARD_CATALOG.find((category) => category.key === categoryKey)?.subcategories.find(
+    (subcategory) => subcategory.key === subcategoryKey
+  );
+}
+
+export function isConfirmed(entry: LeaderboardCatalogEntry): boolean {
+  return !entry.leaderboardId.startsWith('TODO_');
+}
+
+export function confirmedSubcategories(categoryKey: string): LeaderboardCatalogEntry[] {
+  return (
+    LEADERBOARD_CATALOG.find((category) => category.key === categoryKey)?.subcategories.filter(
+      isConfirmed
+    ) ?? []
+  );
+}
