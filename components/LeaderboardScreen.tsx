@@ -227,7 +227,7 @@ function FilterRow({ children }: { children: ReactNode }) {
   );
 }
 
-function Chip({
+export function Chip({
   label,
   active,
   theme,
