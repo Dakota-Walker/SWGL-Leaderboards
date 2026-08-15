@@ -5,8 +5,8 @@ import { fetchRestussEvent } from '../lib/leaderboards/api';
 import type { RestussEventResponse, RestussFactionState } from '../lib/leaderboards/types';
 import { THEME } from '../lib/theme';
 
-const IMPERIAL_COLOR = '#c0392b';
-const REBEL_COLOR = '#3d7dca';
+const IMPERIAL_COLOR = '#3d7dca';
+const REBEL_COLOR = '#c0392b';
 
 export default function RestussEventScreen() {
   const scheme = useColorScheme();
@@ -73,7 +73,8 @@ export default function RestussEventScreen() {
           <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
             <Text style={[styles.title, { color: theme.text }]}>{data.master.name}</Text>
             <Text style={[styles.meta, { color: theme.muted }]}>
-              Phase {data.master.phase} / {data.master.maxPhase} · {data.isActive ? 'Active' : 'Inactive'}
+              Phase {data.master.phase + 1} / {data.master.maxPhase + 1} ·{' '}
+              {data.isActive ? 'Active' : 'Inactive'}
             </Text>
             <Text style={[styles.leaderText, { color: leaderColor }]}>
               {data.winningFaction
@@ -131,8 +132,8 @@ export default function RestussEventScreen() {
                       ? Math.round((rebelBase.phase / rebelBase.maxPhase) * 100)
                       : null
                   }
-                  imperialSuffix={`${base.phase}/${base.maxPhase}`}
-                  rebelSuffix={rebelBase ? `${rebelBase.phase}/${rebelBase.maxPhase}` : undefined}
+                  imperialSuffix={`${base.phase + 1}/${base.maxPhase + 1}`}
+                  rebelSuffix={rebelBase ? `${rebelBase.phase + 1}/${rebelBase.maxPhase + 1}` : undefined}
                   scoring={base.isScoring || rebelBase?.isScoring}
                   theme={theme}
                 />
@@ -203,26 +204,35 @@ function PairedRow({
         <Text style={[styles.pairedLabel, { color: theme.text }]}>{label}</Text>
         {scoring ? <Text style={[styles.scoringBadge, { color: theme.accent }]}>SCORING</Text> : null}
       </View>
-      <View style={styles.pairedSide}>
-        <Text style={[styles.pairedPercent, { color: IMPERIAL_COLOR }]}>
-          {imperialSuffix ?? `${imperialPercent}%`}
-        </Text>
-        <MiniBar percent={imperialPercent} color={IMPERIAL_COLOR} />
-      </View>
-      <View style={styles.pairedSide}>
-        <Text style={[styles.pairedPercent, { color: REBEL_COLOR }]}>
-          {rebelPercent === null ? '—' : (rebelSuffix ?? `${rebelPercent}%`)}
-        </Text>
-        <MiniBar percent={rebelPercent ?? 0} color={REBEL_COLOR} />
+      <View style={styles.pairedSides}>
+        <View style={styles.pairedSide}>
+          <Text style={[styles.pairedPercent, { color: IMPERIAL_COLOR }]}>
+            {imperialSuffix ?? `${imperialPercent}%`}
+          </Text>
+          <MiniBar percent={imperialPercent} color={IMPERIAL_COLOR} />
+        </View>
+        <View style={styles.pairedSide}>
+          <MiniBar percent={rebelPercent ?? 0} color={REBEL_COLOR} reverse />
+          <Text style={[styles.pairedPercent, styles.pairedPercentRight, { color: REBEL_COLOR }]}>
+            {rebelPercent === null ? '—' : (rebelSuffix ?? `${rebelPercent}%`)}
+          </Text>
+        </View>
       </View>
     </View>
   );
 }
 
-function MiniBar({ percent, color }: { percent: number; color: string }) {
+function MiniBar({ percent, color, reverse }: { percent: number; color: string; reverse?: boolean }) {
+  const clamped = Math.min(100, Math.max(0, percent));
   return (
     <View style={styles.miniBarTrack}>
-      <View style={[styles.miniBarFill, { width: `${Math.min(100, Math.max(0, percent))}%`, backgroundColor: color }]} />
+      <View
+        style={[
+          styles.miniBarFill,
+          reverse ? { right: 0 } : { left: 0 },
+          { width: `${clamped}%`, backgroundColor: color },
+        ]}
+      />
     </View>
   );
 }
@@ -341,7 +351,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.6,
   },
+  pairedSides: {
+    flexDirection: 'row',
+    gap: 16,
+  },
   pairedSide: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
@@ -351,15 +366,21 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     width: 44,
   },
+  pairedPercentRight: {
+    textAlign: 'right',
+  },
   miniBarTrack: {
     flex: 1,
     height: 6,
     borderRadius: 999,
     backgroundColor: 'rgba(128,128,128,0.2)',
     overflow: 'hidden',
+    position: 'relative',
   },
   miniBarFill: {
-    height: '100%',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
     borderRadius: 999,
   },
   footer: {
