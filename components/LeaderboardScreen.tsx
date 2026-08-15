@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, useColorScheme, View } from 'react-native';
 
 import { fetchLeaderboard, fetchLeaderboardWins } from '../lib/leaderboards/api';
-import { confirmedSubcategories, findSubcategory } from '../lib/leaderboards/catalog';
+import { LEADERBOARD_CATALOG, confirmedSubcategories, findSubcategory } from '../lib/leaderboards/catalog';
 import type {
   LeaderboardResponse,
   LeaderboardWinsResponse,
@@ -31,13 +31,14 @@ const WIDGET_SUBCATEGORY_KEY = 'unique-kills';
 const WIDGET_SUBJECT: Subject = 'player';
 
 type LeaderboardScreenProps = {
-  categoryKey?: string;
+  initialCategoryKey?: string;
 };
 
-export default function LeaderboardScreen({ categoryKey = 'bounty-hunter' }: LeaderboardScreenProps) {
+export default function LeaderboardScreen({ initialCategoryKey = 'bounty-hunter' }: LeaderboardScreenProps) {
   const scheme = useColorScheme();
   const theme = THEME[scheme === 'light' ? 'light' : 'dark'];
 
+  const [categoryKey, setCategoryKey] = useState(initialCategoryKey);
   const subcategories = confirmedSubcategories(categoryKey);
   const [subcategoryKey, setSubcategoryKey] = useState(
     () => findSubcategory(categoryKey, WIDGET_SUBCATEGORY_KEY)?.key ?? subcategories[0]?.key
@@ -115,6 +116,20 @@ export default function LeaderboardScreen({ categoryKey = 'bounty-hunter' }: Lea
     <>
       <View style={styles.filters}>
         <FilterRow>
+          {LEADERBOARD_CATALOG.map((category) => (
+            <Chip
+              key={category.key}
+              label={category.label}
+              active={category.key === categoryKey}
+              theme={theme}
+              onPress={() => {
+                setCategoryKey(category.key);
+                setSubcategoryKey(confirmedSubcategories(category.key)[0]?.key);
+              }}
+            />
+          ))}
+        </FilterRow>
+        <FilterRow>
           {subcategories.map((subcategory) => (
             <Chip
               key={subcategory.key}
@@ -160,7 +175,7 @@ export default function LeaderboardScreen({ categoryKey = 'bounty-hunter' }: Lea
       ) : (
         <ScrollView contentContainerStyle={styles.content}>
           <Text style={[styles.eyebrow, { color: theme.accent }]}>
-            {categoryKey.toUpperCase().replace('-', ' ')}
+            {(LEADERBOARD_CATALOG.find((category) => category.key === categoryKey)?.label ?? '').toUpperCase()}
           </Text>
           <Text style={[styles.title, { color: theme.text }]}>{selected?.label}</Text>
 
